@@ -8,33 +8,31 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-// Factory is the default logging wrapper that can create
-// logger instances either for a given Context or context-less.
-type Factory struct {
+// NPLogger is the default logging wrapper that can create
+// zapLogger instances either for a given Context or context-less.
+type NPLogger struct {
 	logger *zap.Logger
 }
 
-// NewFactory creates a new Factory.
-func NewFactory(logger *zap.Logger) Factory {
-	return Factory{logger: logger}
+// NewNPLogger creates a new NPLogger.
+func NewNPLogger(logger *zap.Logger) NPLogger {
+	return NPLogger{logger: logger}
 }
 
-// Bg creates a context-unaware logger.
-func (b Factory) Bg() Logger {
-	return logger(b)
+// Bg creates a context-unaware zapLogger.
+func (b NPLogger) Bg() Logger {
+	return zapLogger(b)
 }
 
-// For returns a context-aware Logger. If the context
-// contains an OpenTracing span, all logging calls are also
-// echo-ed into the span.
-func (b Factory) For(ctx context.Context) Logger {
+// For returns a Elastic APM context-aware Logger, if available
+func (b NPLogger) For(ctx context.Context) Logger {
 	if traceCtx := apmzap.TraceContext(ctx); traceCtx != nil {
-		return logger{logger: b.logger.With(traceCtx...)}
+		return zapLogger{logger: b.logger.With(traceCtx...)}
 	}
 	return b.Bg()
 }
 
-// With creates a child logger, and optionally adds some context fields to that logger.
-func (b Factory) With(fields ...zapcore.Field) Factory {
-	return Factory{logger: b.logger.With(fields...)}
+// With creates a child zapLogger, and optionally adds some context fields to that zapLogger.
+func (b NPLogger) With(fields ...zapcore.Field) NPLogger {
+	return NPLogger{logger: b.logger.With(fields...)}
 }
