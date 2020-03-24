@@ -4,7 +4,7 @@ import "context"
 
 type (
 	LogLevel       string
-	Field          map[string]interface{}
+	Fields         map[string]interface{}
 	LoggerInstance int
 	LoggerErr      string
 )
@@ -41,7 +41,7 @@ type NpLogger interface {
 	Infof(msg string, args ...interface{})
 	Errorf(msg string, args ...interface{})
 	Fatalf(msg string, args ...interface{})
-	With(fields ...Field) NpLogger
+	With(fields Fields) NpLogger
 	For(ctx context.Context) NpLogger
 }
 

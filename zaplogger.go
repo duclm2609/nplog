@@ -35,7 +35,7 @@ func (z zapLogger) Fatalf(msg string, args ...interface{}) {
 }
 
 // With creates a child logger, and optionally adds some context fields to that logger
-func (z zapLogger) With(fields ...Field) NpLogger {
+func (z zapLogger) With(fields Fields) NpLogger {
 	var f = make([]interface{}, 0)
 	for k, v := range fields {
 		f = append(f, k)
