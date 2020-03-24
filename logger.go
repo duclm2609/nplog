@@ -37,10 +37,10 @@ const (
 
 // NpLogger is a simplified abstraction of the zap.Logger
 type NpLogger interface {
-	Debug(msg string, args ...interface{})
-	Info(msg string, args ...interface{})
-	Error(msg string, args ...interface{})
-	Fatal(msg string, args ...interface{})
+	Debugf(msg string, args ...interface{})
+	Infof(msg string, args ...interface{})
+	Errorf(msg string, args ...interface{})
+	Fatalf(msg string, args ...interface{})
 	With(fields ...Field) NpLogger
 	For(ctx context.Context) NpLogger
 }
