@@ -94,7 +94,6 @@ func newZapLogger(cfg NpLoggerOption) (NpLogger, error) {
 	}
 
 	if cfg.EnableFile {
-		//TODO: default value for configuration
 		w := zapcore.AddSync(&lumberjack.Logger{
 			Filename:   cfg.Filename,
 			MaxSize:    cfg.FileMaxSize,

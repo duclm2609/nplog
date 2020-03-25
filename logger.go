@@ -48,9 +48,15 @@ type NpLogger interface {
 // NpLoggerOption stores config for the logger
 // For some loggers there can only be one level across writers, for such the level of Console is picked by default
 type NpLoggerOption struct {
-	EnableConsole     bool
+
+	// EnableConsole determines if console log is enable
+	EnableConsole bool
+
+	// ConsoleJSONFormat determines if log should be printed in JSON format to console
 	ConsoleJSONFormat bool
-	ConsoleLevel      LogLevel
+
+	// ConsoleLevel is log level printed to console, default to INFO
+	ConsoleLevel LogLevel
 
 	// EnableFile determines if log to file is enable
 	EnableFile bool
