@@ -16,22 +16,22 @@ type zapLogger struct {
 
 // Debug logs message with debug level
 func (z zapLogger) Debugf(msg string, args ...interface{}) {
-	z.logger.Debugf(msg, args)
+	z.logger.Debugf(msg, args...)
 }
 
 // Info logs message with info level
 func (z zapLogger) Infof(msg string, args ...interface{}) {
-	z.logger.Infof(msg, args)
+	z.logger.Infof(msg, args...)
 }
 
 // Error logs message with error level
 func (z zapLogger) Errorf(msg string, args ...interface{}) {
-	z.logger.Errorf(msg, args)
+	z.logger.Errorf(msg, args...)
 }
 
 // Fatal logs a fatal error message
 func (z zapLogger) Fatalf(msg string, args ...interface{}) {
-	z.logger.Fatalf(msg, args)
+	z.logger.Fatalf(msg, args...)
 }
 
 // With creates a child logger, and optionally adds some context fields to that logger
@@ -111,6 +111,6 @@ func newZapLogger(cfg NpLoggerOption) (NpLogger, error) {
 	logger := zap.New(combinedCores,
 		zap.WrapCore((&apmzap.Core{}).WrapCore),
 		zap.AddCaller(),
-		zap.AddCallerSkip(2)).Sugar()
+		zap.AddCallerSkip(3)).Sugar()
 	return zapLogger{logger: logger}, nil
 }
