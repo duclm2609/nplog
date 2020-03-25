@@ -111,6 +111,6 @@ func newZapLogger(cfg NpLoggerOption) (NpLogger, error) {
 	logger := zap.New(combinedCores,
 		zap.WrapCore((&apmzap.Core{}).WrapCore),
 		zap.AddCaller(),
-		zap.AddCallerSkip(3)).Sugar()
+		zap.AddCallerSkip(2)).Sugar()
 	return zapLogger{logger: logger}, nil
 }
