@@ -14,28 +14,28 @@ type zapLogger struct {
 	logger *zap.SugaredLogger
 }
 
-// Debug logs message with debug level
+//Debugf logs message with debug level
 func (z zapLogger) Debugf(msg string, args ...interface{}) {
 	z.logger.Debugf(msg, args...)
 }
 
-// Info logs message with info level
+//Infof logs message with info level
 func (z zapLogger) Infof(msg string, args ...interface{}) {
 	z.logger.Infof(msg, args...)
 }
 
-// Error logs message with error level
+//Errorf logs message with error level
 func (z zapLogger) Errorf(msg string, args ...interface{}) {
 	z.logger.Errorf(msg, args...)
 }
 
-// Fatal logs a fatal error message
+//Fatalf logs a fatal error message
 func (z zapLogger) Fatalf(msg string, args ...interface{}) {
 	z.logger.Fatalf(msg, args...)
 }
 
-// With creates a child logger, and optionally adds some context fields to that logger
-func (z zapLogger) With(fields Fields) NpLogger {
+//With creates a child logger, and optionally adds some context fields to that logger
+func (z zapLogger) With(fields Fields) Logger {
 	var f = make([]interface{}, 0)
 	for k, v := range fields {
 		f = append(f, k)
@@ -45,7 +45,7 @@ func (z zapLogger) With(fields Fields) NpLogger {
 }
 
 // For return Elastic APM trace context aware, if available
-func (z zapLogger) For(ctx context.Context) NpLogger {
+func (z zapLogger) For(ctx context.Context) Logger {
 	if traceCtx := apmzap.TraceContext(ctx); traceCtx != nil {
 		return zapLogger{logger: z.logger.Desugar().With(traceCtx...).Sugar()}
 	}
@@ -83,7 +83,7 @@ func getEncoder(isJSON bool) zapcore.Encoder {
 	return zapcore.NewConsoleEncoder(encoderConfig)
 }
 
-func newZapLogger(cfg NpLoggerOption) (NpLogger, error) {
+func newZapLogger(cfg Options) (Logger, error) {
 	var cores []zapcore.Core
 
 	if cfg.EnableConsole {

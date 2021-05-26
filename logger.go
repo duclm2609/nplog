@@ -14,7 +14,7 @@ func (e LoggerErr) Error() string {
 }
 
 const (
-	// Uber's zap logger solution
+	//ZapLogger Uber's zap logger instance
 	ZapLogger LoggerInstance = iota
 )
 
@@ -35,19 +35,19 @@ const (
 	ErrNotSupportedLoggerInstance = LoggerErr("failed to initialize logger: not supported instance")
 )
 
-// NpLogger is a simplified abstraction of the zap.Logger
-type NpLogger interface {
+// Logger is a simplified abstraction of the zap.Logger
+type Logger interface {
 	Debugf(msg string, args ...interface{})
 	Infof(msg string, args ...interface{})
 	Errorf(msg string, args ...interface{})
 	Fatalf(msg string, args ...interface{})
-	With(fields Fields) NpLogger
-	For(ctx context.Context) NpLogger
+	With(fields Fields) Logger
+	For(ctx context.Context) Logger
 }
 
-// NpLoggerOption stores config for the logger
+// Options stores config for the logger
 // For some loggers there can only be one level across writers, for such the level of Console is picked by default
-type NpLoggerOption struct {
+type Options struct {
 
 	// EnableConsole determines if console log is enable
 	EnableConsole bool
@@ -93,7 +93,7 @@ type NpLoggerOption struct {
 	FileLevel LogLevel
 }
 
-func NewNpLogger(instance LoggerInstance, options NpLoggerOption) (NpLogger, error) {
+func New(instance LoggerInstance, options Options) (Logger, error) {
 	switch instance {
 	case ZapLogger:
 		return newZapLogger(options)
