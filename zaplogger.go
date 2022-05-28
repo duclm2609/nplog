@@ -75,7 +75,7 @@ func getEncoder(isJSON bool) zapcore.Encoder {
 	encoderConfig := zap.NewProductionEncoderConfig()
 	encoderConfig.MessageKey = "message"
 	encoderConfig.StacktraceKey = "error.stack_trace"
-	encoderConfig.TimeKey = "timestamp"
+	encoderConfig.TimeKey = "@timestamp"
 	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
 	if isJSON {
 		return zapcore.NewJSONEncoder(encoderConfig)
